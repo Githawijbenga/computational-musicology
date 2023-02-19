@@ -9,4 +9,4 @@ Other than the languages spoken in the song I'm interested to look for other dif
 
 ## The Plot
 
-The plot I made is comparing dancability, tempo
+The plot I made is comparing the tempo and danceability of songs on the x and y axis. Also it's showing the liveness of songs with colour, and the popularity with size. It's interesting to see how Ghanian songs are more scattered over the x axis, which means the tempo is different for every song. The tempo of Nigerian songs are more similar to eachother. It's also interesting to look if tempo and dancebility are depended variables, because intuitively it is. 
