@@ -36,13 +36,9 @@ ghana_nigeria <-
   )
 
 ghana_nigeria |>                   
-  ggplot(aes(x = tempo, y = danceability, size = track.popularity, colour = liveness)) + 
-  geom_point(size=1.5) + 
-  geom_rug(linewidth = 0.1) + # Add 'fringes' to show data distribution.
-  geom_text(aes(x = tempo, y = danceability, label = label),
-  data = 
-    tibble(label = c("O2", "Asiwaju"),category = c("Ghana", "Nigeria"),tempo = c(66.769, 199.796),danceability = c(0.437, 0.727)),
-  colour = "black",size = 3,hjust = "right", nudge_y = -0.02) +       
+  ggplot(aes(x = tempo, y = danceability, colour = liveness)) + 
+  geom_point(size=2) + 
+  geom_rug(linewidth = 0.1) + 
   facet_wrap(~ category) + 
   scale_x_continuous(limits = c(50, 200), breaks = c(50, 100, 200), minor_breaks = NULL) +
   scale_y_continuous(limits = c(0.4, 1),breaks = c(0.4, 0.7, 1),minor_breaks = NULL) +
@@ -53,7 +49,7 @@ ghana_nigeria |>
 
 ***
 
-The plot I made is comparing the tempo and danceability of songs on the x and y axis. Also it's showing the energy of songs with colour, and the popularity with size. It's interesting to see how Ghanian songs are more scattered over the x axis, which means the tempo is different for every song. The tempo of Nigerian songs are more similar to eachother. It's also interesting to look if tempo and dancebility are depended variables, because intuitively it is.
+The plot I made is comparing the tempo and danceability of songs on the x and y axis. Also it's showing the energy of songs with colour, and the (NOT ANYMORE) popularity with size. It's interesting to see how Ghanian songs are more scattered over the x axis, which means the tempo is different for every song. The tempo of Nigerian songs are more similar to eachother. It's also interesting to look if tempo and dancebility are depended variables, because intuitively it is.
 
 
 ### Conclusion and discussion
