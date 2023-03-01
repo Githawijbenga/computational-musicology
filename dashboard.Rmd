@@ -1,17 +1,17 @@
-```{r, setup}
-library(tidyverse)
-library(plotly)
-library(spotifyr)
-library(compmus)
-```
-
 ---
 title: "Is there a difference between Nigerian an Ghananian afrobeats songs?"
 output: 
   flexdashboard::flex_dashboard:
     storyboard: true
-    theme: plotly
 ---
+
+```{r, setup}
+library(tidyverse)
+library(plotly)
+library(spotifyr)
+library(compmus)
+library(flexdashboard)
+```
 
 ### Introduction
 
@@ -24,6 +24,7 @@ Other than the languages spoken in the song I'm interested to look for other dif
 ### The plot
 
 The plot I made is comparing the tempo and danceability of songs on the x and y axis. Also it's showing the energy of songs with colour, and the popularity with size. It's interesting to see how Ghanian songs are more scattered over the x axis, which means the tempo is different for every song. The tempo of Nigerian songs are more similar to eachother. It's also interesting to look if tempo and dancebility are depended variables, because intuitively it is.
+
 
 ```{r}
 ghana <- get_playlist_audio_features("","37i9dQZF1DX3zd1ZTQB0K9?si=71424602f1f446bf")
