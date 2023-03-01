@@ -1,5 +1,6 @@
 ---
 title: "Is there a difference between Nigerian an Ghananian afrobeats songs?"
+author: "Githa Wijbenga"
 output: 
   flexdashboard::flex_dashboard:
     storyboard: true
@@ -13,7 +14,7 @@ library(compmus)
 library(flexdashboard)
 ```
 
-### Introduction
+### Corpus
 
 Afrobeats is a music genre originated from West Africa. More specifically from Nigeria and Ghana. It was very popular in the 2000's and 2010's. The artists sing mostly in Nigerian or Ghanaian accented English, or in the languages originated from these countries. Afrobeats is also called afropop or afrofusion. It's a fusion of different genres like dancehall, R&B, hip hop, etc. I think this genre is very interesting because the songs have an unique sound, and reflect the culture and history of West Africa. It's fairly new that people from all over the world listen to this music.
 
@@ -22,8 +23,6 @@ Other than the languages spoken in the song I'm interested to look for other dif
 'Higher' from Tems, a Nigerian singer, is a slow song, which seems to sound like 'SOMETHING' from Gyakie, a Ghanian singer. These songs from these two women, are very typical for the afrobeats genre. It's interesting to compare these two songs and look for differences and similarities.
 
 ### The plot
-
-The plot I made is comparing the tempo and danceability of songs on the x and y axis. Also it's showing the energy of songs with colour, and the popularity with size. It's interesting to see how Ghanian songs are more scattered over the x axis, which means the tempo is different for every song. The tempo of Nigerian songs are more similar to eachother. It's also interesting to look if tempo and dancebility are depended variables, because intuitively it is.
 
 
 ```{r}
@@ -38,7 +37,7 @@ ghana_nigeria <-
 
 ghana_nigeria |>                   
   ggplot(aes(x = tempo, y = danceability, size = track.popularity, colour = liveness)) + 
-  geom_point() + 
+  geom_point(size=1.5) + 
   geom_rug(linewidth = 0.1) + # Add 'fringes' to show data distribution.
   geom_text(aes(x = tempo, y = danceability, label = label),
   data = 
@@ -51,6 +50,89 @@ ghana_nigeria |>
   theme_light() + labs(x = "Tempo", y = "Dancability",colour = "Energy")
 
 ```
+
+***
+
+The plot I made is comparing the tempo and danceability of songs on the x and y axis. Also it's showing the energy of songs with colour, and the popularity with size. It's interesting to see how Ghanian songs are more scattered over the x axis, which means the tempo is different for every song. The tempo of Nigerian songs are more similar to eachother. It's also interesting to look if tempo and dancebility are depended variables, because intuitively it is.
+
+
 ### Conclusion and discussion
 
 
+### Song MEAN
+
+```{r}
+bzt <-
+  get_tidy_audio_analysis("2aJDlirz6v2a4HREki98cP?si=9f979ce512874b90") |> 
+  compmus_align(bars, segments) |>                     
+  select(bars) |>                                      
+  unnest(bars) |>                                      
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "mean", norm = "euclidean"
+      )
+  ) |>
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "mean", norm = "euclidean"
+      )
+  )
+  
+  bzt |>
+  compmus_gather_timbre() |>
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = basis,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  scale_fill_viridis_c() +                              
+  theme_classic()
+```
+
+### Song RMS
+
+```{r}
+bzt <-
+  get_tidy_audio_analysis("2aJDlirz6v2a4HREki98cP?si=9f979ce512874b90") |> 
+  compmus_align(bars, segments) |>                     
+  select(bars) |>                                      
+  unnest(bars) |>                                      
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "rms", norm = "euclidean"
+      )
+  ) |>
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "rms", norm = "euclidean"
+      )
+  )
+  
+  bzt |>
+  compmus_gather_timbre() |>
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = basis,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  scale_fill_viridis_c() +                              
+  theme_classic()
+```
